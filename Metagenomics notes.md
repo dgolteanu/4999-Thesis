@@ -1,6 +1,6 @@
-#Metagenomics#
-##Assemblers##
-1. de Brujin graphs
-2. k-mer binning
-What is clustering?
-..lookup cd-hit
+# Metagenomics
+## Assemblers
+Fastq to Fasta
+```bash
+zcat input_file.fastq.gz | awk 'NR%4==1{printf ">%s\n", substr($0,2)}NR%4==2{print}' > output_file.fa
+```
