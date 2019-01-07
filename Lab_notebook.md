@@ -40,8 +40,6 @@ Performed metagenomic assembly of both adapter_only and adapter+crop pre process
 Performed dereplication of unpaired reads for both adapter_only and adapter+crop using the deduplicaiton.sh script
 Performed quality control of both adapter_only and adapter+crop reads using ```nohup /Volumes/data/bin/FastQC/fastqc ./*U.fastq &```
 
-Assembly was performed using Metaspades : ``` nohup /Volumes/data/bin/SPAdes-3.11.1-Linux/bin/metaspades.py --pe1-1 "/Volumes/data/dgolteanu/MGYS00001695/trimmed_reads/adapter+crop/paired_end/dereplicated/re_paired/*1P.fastq " --pe1-2 "/Volumes/data/dgolteanu/MGYS00001695/trimmed_reads/adapter+crop/paired_end/dereplicated/reverse/re_paired/ERR970* " --pe1-s "/Volumes/data/dgolteanu/MGYS00001695/trimmed_reads/adapter+crop/unpaired/dereplicated/*U.fastq " -o /Volumes/data/dgolteanu/MGYS00001695/assemblies/adapter+crop_metaSPAdes & ``` For some reason wildcard did not work for reverse reads 
+Assembly was performed using Metaspades : ``` nohup /Volumes/data/bin/SPAdes-3.11.1-Linux/bin/metaspades.py --pe1-1 "/Volumes/data/dgolteanu/MGYS00001695/trimmed_reads/adapter+crop/paired_end/dereplicated/re_paired/*1P.fastq " --pe1-2 "/Volumes/data/dgolteanu/MGYS00001695/trimmed_reads/adapter+crop/paired_end/dereplicated/reverse/re_paired/ERR970* " --pe1-s "/Volumes/data/dgolteanu/MGYS00001695/trimmed_reads/adapter+crop/unpaired/dereplicated/*U.fastq " -o /Volumes/data/dgolteanu/MGYS00001695/assemblies/adapter+crop_metaSPAdes & ``` For some reason wildcard did not work for reverse reads
 
-  ERR970398_1U.fastq.gz,ERR970399_1U.fastq.gz,ERR970400_1U.fastq.gz,ERR970401_1U.fastq.gz,ERR970402_1U.fastq.gz,ERR970403_1U.fastq.gz,ERR970404_1U.fastq.gz,ERR970405_1U.fastq.gz,ERR970406_1U.fastq.gz,ERR970407_1U.fastq.gz  ```
-
-  ERR970398_2P.fastq ERR970399_2P.fastq ERR970400_2P.fastq ERR970401_2P.fastq ERR970402_2P.fastq ERR970403_2P.fastq ERR970404_2P.fastq ERR970405_2P.fastq ERR970406_2P.fastq ERR970407_2P.fastq
+  
