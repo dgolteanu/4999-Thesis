@@ -40,6 +40,21 @@ Performed metagenomic assembly of both adapter_only and adapter+crop pre process
 Performed dereplication of unpaired reads for both adapter_only and adapter+crop using the deduplicaiton.sh script
 Performed quality control of both adapter_only and adapter+crop reads using ```nohup /Volumes/data/bin/FastQC/fastqc ./*U.fastq &```
 
-Assembly was performed using Metaspades : ``` nohup /Volumes/data/bin/SPAdes-3.11.1-Linux/bin/metaspades.py --pe1-1 "/Volumes/data/dgolteanu/MGYS00001695/trimmed_reads/adapter+crop/paired_end/dereplicated/re_paired/*1P.fastq " --pe1-2 "/Volumes/data/dgolteanu/MGYS00001695/trimmed_reads/adapter+crop/paired_end/dereplicated/reverse/re_paired/ERR970* " --pe1-s "/Volumes/data/dgolteanu/MGYS00001695/trimmed_reads/adapter+crop/unpaired/dereplicated/*U.fastq " -o /Volumes/data/dgolteanu/MGYS00001695/assemblies/adapter+crop_metaSPAdes & ``` For some reason wildcard did not work for reverse reads
+### 2019/01/07
+mapping of both adapter_only and adapter+crop with bowtie2 using paired and unpaired reads. Sample commands:
+``` nohup /Volumes/data/bin/bowtie2-2.2.6/bowtie2-build ./assemblies/adapter_only_megahit/final.contigs.fa ./assemblies/adapter_only_megahit/bowtie2-index & ``` and ```  nohup /Volumes/data/bin/bowtie2-2.2.6/bowtie2 -x /Volumes/data/dgolteanu/MGYS00001695/assemblies/adapter+crop_megahit/bowtie2-index -1 /Volumes/data/dgolteanu/MGYS00001695/trimmed_reads/adapter+crop/paired_end/dereplicated/re_paired/forward-concatenated.fastq -2 /Volumes/data/dgolteanu/MGYS00001695/trimmed_reads/adapter+crop/paired_end/dereplicated/re_paired/reverse-concatenated.fastq -U /Volumes/data/dgolteanu/MGYS00001695/trimmed_reads/adapter+crop/unpaired/dereplicated/unpaired_concatenated.fastq -S ./adapter+crop.sam & ```
 
-  
+Found out that anvio requires specific input format & transformed the final.contigs.fa files into anvio appropriate format
+``` nohup anvi-script-reformat-fasta /Volumes/data/dgolteanu/MGYS00001695/assemblies/adapter+crop_megahit/final.contigs.fa -o /Volumes/data/dgolteanu/MGYS00001695/assemblies/adapter+crop_megahit/adapter+crop.fixed-contigs.fa -l 0 --simplify-names --report-file adapter+crop.report.tsv & ```
+The new assemblies are labeled "assembly name".fixed-contigs.fa respectively
+Mapping was redone for both trims using the aforementioned packages & Scripts
+### 2019/01/08
+SAM to BAM conversion was done: ``` nohup /Volumes/data/bin/samtools-1.2/samtools -S -b adapter_only.sam > ./adapter_only.bam & ```
+
+Using Anvi'o 5.2 in a python 3.6 virtual environment the following processing was performed:
+Creation of an Anvi'o database: ```  nohup anvi-gen-contigs-database -f /Volumes/data/dgolteanu/MGYS00001695/assemblies/adapter_only_megahit/adapter_only.fixed-contigs.fa -o ./adapter_only.db -n 'Adapter_only trimmed database' & ```
+HMMER is used to find hidden markov models to annotate single copy bacterial genes, example command:
+``` nohup anvi-run-hmms -c adapter+crop.db --num-threads 45 & ``` # adapter_only hmms still need to be run
+sort & index using samtools as anvio didn't work
+``` nohup /Volumes/data/bin/samtools-1.2/samtools sort index ```
+Set up NCBI COGs database & ran ```nohup anvi-run-ncbi-cogs -c adapter_only.db --num-threads 24 &``` on both trims
